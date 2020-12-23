@@ -4,7 +4,7 @@ var clock = new THREE.Clock();
 camTarget = new THREE.Vector3(0,20,0);
 var clips = [];
 var clipCount = 0;
-var TOD = 13;
+var TOD = 15;
 var globalPlane;
 /////////Events/////////////////////
 window.addEventListener( 'resize', onWindowResize, false );
@@ -27,10 +27,10 @@ function init(){
   near = -100; 
   far = 10000;
   camera = new THREE.OrthographicCamera( frustumSize*aspect/-2, frustumSize*aspect/2, frustumSize/2, frustumSize/-2, near, far );
-  camera.position.x = -20;
+  camera.position.x = 20;
   camera.position.y = 200;
   camera.position.z = -20;
-  camera.zoom = 4;
+  camera.zoom = 5.5;
   camera.aspect = aspect;
   camera.target = camTarget;
   camera.updateProjectionMatrix();
@@ -44,18 +44,18 @@ function init(){
   ] );
 
   /////////ClippingPlanes & Shadow Planes///////////
-  globalPlane = new THREE.Plane( new THREE.Vector3( 0, 1, 0 ), 0.1);
-  globalPlane2 = new THREE.Plane( new THREE.Vector3( 0, -1, 0 ), 150);
-  globalPlane3 = new THREE.Plane( new THREE.Vector3( 0, 0, -1 ), 53.23);
+  // globalPlane = new THREE.Plane( new THREE.Vector3( 0, 1, 0 ), 0.1);
+  // globalPlane2 = new THREE.Plane( new THREE.Vector3( 0, -1, 0 ), 150);
+  // globalPlane3 = new THREE.Plane( new THREE.Vector3( 0, 0, -1 ), 53.23);
 
-  var geometryPlane = new THREE.PlaneGeometry(1000,1000);
-  var groundMaterial = new THREE.ShadowMaterial();
-  groundMaterial.opacity = 0.1;
-  var ground = new THREE.Mesh(geometryPlane, groundMaterial);
-  ground.rotateX( - Math.PI / 2 );
-  ground.position.y = -30;
-  ground.receiveShadow = true;
-  scene.add( ground );
+  // var geometryPlane = new THREE.PlaneGeometry(1000,1000);
+  // var groundMaterial = new THREE.ShadowMaterial();
+  // groundMaterial.opacity = 0.1;
+  // var ground = new THREE.Mesh(geometryPlane, groundMaterial);
+  // ground.rotateX( - Math.PI / 2 );
+  // ground.position.y = -30;
+  // ground.receiveShadow = true;
+  // scene.add( ground );
 
   //////////Loader////////////////////////
 
@@ -113,33 +113,34 @@ function init(){
           object.receiveShadow = "true"
         };
 
-        if (object instanceof THREE.Mesh && object.name =='LayerB001') {
-          object.castShadow = "true";
-          object.receiveShadow = "true"
-          object.material.clippingPlanes = [globalPlane];
-          object.material.clipShadows = true; 
-        };
+        // if (object instanceof THREE.Mesh && object.name =='LayerB001') {
+        //   object.castShadow = "true";
+        //   object.receiveShadow = "true"
+        //   object.material.clippingPlanes = [globalPlane];
+        //   object.material.clipShadows = true; 
+        // };
 
-        if (object instanceof THREE.Mesh && (object.material.name =='Default OBJ.001')) {
-          object.castShadow = "true";
-          object.receiveShadow = "true"
-          object.material.clippingPlanes = [globalPlane3];
-          object.material.clipShadows = true; 
-        };
-
-        if (object instanceof THREE.Mesh && object.name =='Trees002') {
+        if (object instanceof THREE.Mesh && (object.material.name =='Roof')) {
+          object.material.side = THREE.DoubleSide;
+          object.castShadow = "false";
+          object.receiveShadow = "false";
           object.material.transparent = "true";
-          object.material.clippingPlanes = [globalPlane2];
-          object.material.clipShadows = true;
           object.material.opacity = 0.2;
         };
 
-        if (object instanceof THREE.Mesh && object.name =='LayerD') {
-          object.material.clippingPlanes = [globalPlane2];
-          object.material.clipShadows = true;
-          object.material.side = THREE.DoubleSide;
-          object.material.opacity = 0.8;
-        };
+        // if (object instanceof THREE.Mesh && object.name =='Trees002') {
+        //   object.material.transparent = "true";
+        //   object.material.clippingPlanes = [globalPlane2];
+        //   object.material.clipShadows = true;
+        //   object.material.opacity = 0.2;
+        // };
+
+        // if (object instanceof THREE.Mesh && object.name =='LayerD') {
+        //   object.material.clippingPlanes = [globalPlane2];
+        //   object.material.clipShadows = true;
+        //   object.material.side = THREE.DoubleSide;
+        //   object.material.opacity = 0.8;
+        // };
       });
 
       mixer = new THREE.AnimationMixer(model);
@@ -164,7 +165,7 @@ function init(){
   );
   
   //LIGHT//////////////////////////////////
-  ambientlight = new THREE.AmbientLight( 0x080808, 10 ); 
+  ambientlight = new THREE.AmbientLight( 0x080808, 7 ); 
   dirLight = new THREE.DirectionalLight( 0xFCF8E4, 1 );
   dirLight.shadow.camera.right =  200;
   dirLight.shadow.camera.left = -200;
@@ -215,25 +216,8 @@ function init(){
 function animate(){
 
   var time2 = Date.now() * 0.002;
-  scene.getObjectByName( "Trees002" ).position.y = (Math.sin(time2*2))/3;
-  // scene.getObjectByName( "OLD_TOPO_BIRDS" ).position.y = (Math.sin(time2*7))/4;
-
-  // dirLight.position.y = (sunData[ TOD ].sunPosition.Y);
-  // dirLight.position.x = (sunData[ TOD ].sunPosition.X);
-  // dirLight.position.z = -(sunData[ TOD ].sunPosition.Z);
-
-  // var slider = document.getElementById("myRange");
-  // var slider2 = document.getElementById("myRange2");
+  // scene.getObjectByName( "Trees002" ).position.y = (Math.sin(time2*2))/3;
   
-  // slider.oninput = function() {
-  //   // globalPlane3.position.x = this.value;
-  //   globalPlane3.constant = 60 - parseFloat(this.value);
-  // };
-  // slider2.oninput = function() {
-  //   // globalPlane3.position.x = this.value;
-  //   globalPlane.constant = 100 - parseFloat(this.value);
-  // };
-
   TWEEN.update();
 
   camera.updateProjectionMatrix();
