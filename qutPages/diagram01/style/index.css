@@ -17,21 +17,21 @@ html, body, section {
 
 
 h1 {
-  font-size: 2.5em;
+  font-size: 2.0em;
   color: black;
   font-family: 'Playfair Display', serif;
   line-height: 90%;
 }
 
 h2 {
-  font-size: 1.2em;
-  color: grey;
+  font-size: 1.0em;
+  color: black;
   font-family: 'Quicksand', sans-serif;
   margin: 0;
 }
 
 p {
-  font-size: 0.8em;
+  font-size: 0.7em;
   color: black;
   font-family: 'Quicksand', sans-serif;
   margin: 0;
